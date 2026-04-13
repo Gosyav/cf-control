@@ -15,13 +15,13 @@ RUN apt update && apt install -y \
     gnupg \
     wget \
     libbullet-dev \
-    libboost-program-options-dev \ 
+    libboost-program-options-dev \
     libusb-1.0-0-dev \
     python3-flake8 \
     python3-pip \
     python3-pytest-cov \
     python3-setuptools \
-    clang-format 
+    clang-format
 
 # Max version of pip supported by PX4-Autopilot v1.15.0 is 24.0
 # See: Tools/setup/requirements.txt (matplotlib>=3.0.*)
@@ -125,13 +125,13 @@ RUN useradd -m -d /home/developer -s /bin/bash -u 1001 -G sudo developer && \
 USER developer
 
 # Install acados
-RUN git clone https://github.com/acados/acados.git /home/developer/acados -b v0.5.1 && \
-    cd /home/developer/acados && \ 
-    git submodule update --recursive --init && \
-    mkdir -p build && \
-    cd build && \
-    cmake -DACADOS_WITH_QPOASES=ON .. && \
-    make install -j8
+# RUN git clone https://github.com/acados/acados.git /home/developer/acados -b v0.5.1 && \
+#     cd /home/developer/acados && \
+#     git submodule update --recursive --init && \
+#     mkdir -p build && \
+#     cd build && \
+#     cmake -DACADOS_WITH_QPOASES=ON .. && \
+#     make install -j8
 
 # Acados Python interface
 RUN pip install /home/developer/acados/interfaces/acados_template && \
@@ -144,7 +144,7 @@ RUN git clone https://github.com/Tim-Salzmann/l4casadi.git /home/developer/l4cas
     CUDACXX=/usr/local/cuda-12.8/bin/nvcc pip install . --no-build-isolation
 
 # Setup ROS2 workspace
-RUN mkdir -p /home/developer/ros2_ws/src 
+RUN mkdir -p /home/developer/ros2_ws/src
 
 # Copy helper scripts
 COPY setup.sh /home/developer/ros2_ws/setup.sh
@@ -155,10 +155,10 @@ WORKDIR /home/developer/ros2_ws
 USER root
 RUN apt-get update && apt-get install -y locales \
     && locale-gen en_US.UTF-8 \
-    && update-locale LANG=en_US.UTF-8 
+    && update-locale LANG=en_US.UTF-8
 
 # Additional configs for developer user
-USER developer    
+USER developer
 RUN echo "export LANG=en_US.UTF-8" >> /home/developer/.bashrc \
     && echo "export LANGUAGE=en_US:en" >> /home/developer/.bashrc \
     && echo "export LC_ALL=en_US.UTF-8" >> /home/developer/.bashrc \

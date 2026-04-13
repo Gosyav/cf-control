@@ -21,7 +21,7 @@ RUN apt update && apt install -y \
     python3-pip \
     python3-pytest-cov \
     python3-setuptools \
-    clang-format 
+    clang-format
 
 # Max version of pip supported by PX4-Autopilot v1.15.0 is 24.0
 # See: Tools/setup/requirements.txt (matplotlib>=3.0.*)
@@ -61,7 +61,7 @@ RUN python3 -m pip install -U --ignore-installed \
     tensorboard \
     casadi
 
-RUN python3 -m pip install -U --ignore-installed torchvision --index-url https://download.pytorch.org/whl/cpu 
+RUN python3 -m pip install -U --ignore-installed torchvision --index-url https://download.pytorch.org/whl/cpu
 
 # Install additional Python packages l4casadi and Gazebo Harmonic
 # setuptools>=68.1 required by l4casadi, <81 preferable by VCS tools
@@ -124,18 +124,18 @@ RUN useradd -m -d /home/developer -s /bin/bash -u 1001 -G sudo developer && \
 USER developer
 
 # Install acados
-RUN git clone https://github.com/acados/acados.git /home/developer/acados -b v0.5.1 && \
-    cd /home/developer/acados && \
-    git submodule update --recursive --init && \
-    mkdir -p build && \
-    cd build && \
-    cmake -DACADOS_WITH_QPOASES=ON .. && \
-    make install -j8
+# RUN git clone https://github.com/acados/acados.git /home/developer/acados -b v0.5.1 && \
+#     cd /home/developer/acados && \
+#     git submodule update --recursive --init && \
+#     mkdir -p build && \
+#     cd build && \
+#     cmake -DACADOS_WITH_QPOASES=ON .. && \
+#     make install -j8
 
 # Acados Python interface
-RUN pip install /home/developer/acados/interfaces/acados_template && \
-    echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/developer/acados/lib" >> /home/developer/.bashrc && \
-    echo "export ACADOS_SOURCE_DIR=/home/developer/acados" >> /home/developer/.bashrc
+# RUN pip install /home/developer/acados/interfaces/acados_template && \
+#     echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/developer/acados/lib" >> /home/developer/.bashrc && \
+#     echo "export ACADOS_SOURCE_DIR=/home/developer/acados" >> /home/developer/.bashrc
 
 # Install l4casadi
 RUN git clone https://github.com/Tim-Salzmann/l4casadi.git /home/developer/l4casadi -b v2.0.0-release && \
@@ -154,10 +154,10 @@ WORKDIR /home/developer/ros2_ws
 USER root
 RUN apt-get update && apt-get install -y locales \
     && locale-gen en_US.UTF-8 \
-    && update-locale LANG=en_US.UTF-8 
+    && update-locale LANG=en_US.UTF-8
 
 # Additional configs for developer user
-USER developer    
+USER developer
 RUN echo "export LANG=en_US.UTF-8" >> /home/developer/.bashrc \
     && echo "export LANGUAGE=en_US:en" >> /home/developer/.bashrc \
     && echo "export LC_ALL=en_US.UTF-8" >> /home/developer/.bashrc \
